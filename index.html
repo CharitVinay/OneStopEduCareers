@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerAdvisor - Your Educational Career Guide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #a7e9f2 0%, #e6f7ff 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: linear-gradient(rgba(26, 42, 108, 0.8), rgba(178, 31, 31, 0.8), rgba(253, 187, 45, 0.8)), 
+                        url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+        
+        .tabs-container {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .tabs {
+            display: flex;
+            background: #f0fbff;
+            padding: 0 20px;
+            border-bottom: 2px solid #c2e7ff;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 18px 25px;
+            background: transparent;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #5f6368;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .tab-btn:hover {
+            color: #1a73e8;
+        }
+        
+        .tab-btn.active {
+            color: #1a73e8;
+        }
+        
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #1a73e8;
+            border-radius: 4px 4px 0 0;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .course-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .course-icon {
+            width: 80px;
+            height: 80px;
+            background: #1a73e8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .course-title {
+            color: #1a2a6c;
+            font-size: 2.2rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #fdbb2d;
+        }
+        
+        .course-description {
+            color: #5f6368;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .course-card {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 4px solid #1a2a6c;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .course-card h3 {
+            color: #b21f1f;
+            margin: 0 0 10px;
+        }
+        
+        .specializations {
+            margin-top: 20px;
+        }
+        
+        .spec-list {
+            list-style-type: none;
+            columns: 2;
+            margin: 15px 0;
+        }
+        
+        .spec-list li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .spec-list li:before {
+            content: "→";
+            color: #b21f1f;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .career-path {
+            background: #eef2f7;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .career-list {
+            list-style-type: none;
+        }
+        
+        .career-list li {
+            padding: 10px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+        }
+        
+        .career-list li:before {
+            content: "→";
+            color: #b21f1f;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .specializations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .specialization-box {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #c2e7ff;
+        }
+        
+        .specialization-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-color: #1a73e8;
+        }
+        
+        .specialization-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .specialization-icon {
+            width: 50px;
+            height: 50px;
+            background: #e6f7ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #1a73e8;
+            font-size: 1.5rem;
+        }
+        
+        .specialization-title {
+            font-size: 1.4rem;
+            color: #1a73e8;
+            font-weight: 600;
+        }
+        
+        .specialization-description {
+            color: #5f6368;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .specialization-details {
+            color: #5f6368;
+            font-size: 0.9rem;
+            display: none;
+            padding-top: 10px;
+        }
+        
+        .specialization-box.active .specialization-details {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .specialization-toggle {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            color: #1a73e8;
+            font-size: 1.2rem;
+        }
+        
+        /* About Us Section */
+        .about-section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-section h2 {
+            color: #1a73e8;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .about-text {
+            padding-right: 20px;
+        }
+        
+        .about-text p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            color: #5f6368;
+        }
+        
+        .contact-info {
+            background: #f0fbff;
+            padding: 25px;
+            border-radius: 12px;
+        }
+        
+        .contact-info h3 {
+            color: #1a73e8;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #c2e7ff;
+        }
+        
+        .contact-details {
+            list-style-type: none;
+        }
+        
+        .contact-details li {
+            padding: 12px 0;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #c2e7ff;
+        }
+        
+        .contact-details li:last-child {
+            border-bottom: none;
+        }
+        
+        .contact-details li i {
+            color: #1a73e8;
+            margin-right: 15px;
+            font-size: 1.2rem;
+            width: 25px;
+        }
+        
+        /* Footer */
+        footer {
+            background: #1a2a6c;
+            color: white;
+            border-radius: 20px 20px 0 0;
+            margin-top: 30px;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-column h3 {
+            color: #fdbb2d;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #b21f1f;
+        }
+        
+        .footer-column p, .footer-column a {
+            color: white;
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column a:hover {
+            color: #fdbb2d;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #b21f1f;
+            color: white;
+        }
+        
+        @media (max-width: 900px) {
+            .about-content, .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                justify-content: center;
+            }
+            
+            header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .course-title {
+                font-size: 1.8rem;
+            }
+            
+            .spec-list {
+                columns: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .tab-btn {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .course-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .course-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .courses-grid, .specializations-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>CareerAdvisor</h1>
+            <p>Explore various undergraduate and postgraduate programs in engineering, management, business, and medical fields</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="btech"><i class="fas fa-laptop-code"></i> B.Tech</button>
+                <button class="tab-btn" data-tab="mtech"><i class="fas fa-cogs"></i> M.Tech</button>
+                <button class="tab-btn" data-tab="mba"><i class="fas fa-chart-line"></i> MBA</button>
+                <button class="tab-btn" data-tab="bba"><i class="fas fa-briefcase"></i> BBA</button>
+                <button class="tab-btn" data-tab="medical"><i class="fas fa-heartbeat"></i> Medical</button>
+            </div>
+            
+            <!-- B.Tech Content -->
+            <div class="tab-content active" id="btech">
+                <div class="course-header">
+                    <div class="course-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h2 class="course-title">Bachelor of Technology (B.Tech)</h2>
+                </div>
+                
+                <p class="course-description">
+                    The Bachelor of Technology (B.Tech) is a professional undergraduate engineering degree awarded after completion of four years of academic study in the engineering field. It is one of the most sought-after degrees for students interested in technical and engineering careers.
+                </p>
+                
+                <h3><i class="fas fa-code-branch"></i> Popular Specializations</h3>
+                
+                <div class="specializations-grid">
+                    <!-- CSE -->
+                    <div class="specialization-box" onclick="toggleSpecialization(this)">
+                        <div class="specialization-header">
+                            <div class="specialization-icon">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <h3 class="specialization-title">CSE</h3>
+                        </div>
+                        <p class="specialization-description">Computer Science & Engineering</p>
+                        <div class="specialization-details">
+                            <p><strong>Focus Areas:</strong> Algorithms, Data Structures, AI, Machine Learning</p>
+                            <p><strong>Career Paths:</strong> Software Developer, Data Scientist, Systems Analyst</p>
+                        </div>
+                        <div class="specialization-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- AML -->
+                    <div class="specialization-box" onclick="toggleSpecialization(this)">
+                        <div class="specialization-header">
+                            <div class="specialization-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h3 class="specialization-title">AML</h3>
+                        </div>
+                        <p class="specialization-description">Automation & Machine Learning</p>
+                        <div class="specialization-details">
+                            <p><strong>Focus Areas:</strong> AI Algorithms, Neural Networks, Automation Systems</p>
+                            <p><strong>Career Paths:</strong> ML Engineer, AI Specialist, Automation Engineer</p>
+                        </div>
+                        <div class="specialization-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- CC -->
+                    <div class="specialization-box" onclick="toggleSpecialization(this)">
+                        <div class="specialization-header">
+                            <div class="specialization-icon">
+                                <i class="fas fa-cloud"></i>
+                            </div>
+                            <h3 class="specialization-title">CC</h3>
+                        </div>
+                        <p class="specialization-description">Cloud Computing</p>
+                        <div class="specialization-details">
+                            <p><strong>Focus Areas:</strong> Cloud Architecture, Distributed Systems, Virtualization</p>
+                            <p><strong>Career Paths:</strong> Cloud Architect, DevOps Engineer, Cloud Security Specialist</p>
+                        </div>
+                        <div class="specialization-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- CSD -->
+                    <div class="specialization-box" onclick="toggleSpecialization(this)">
+                        <div class="specialization-header">
+                            <div class="specialization-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h3 class="specialization-title">CSD</h3>
+                        </div>
+                        <p class="specialization-description">Computer Science & Design</p>
+                        <div class="specialization-details">
+                            <p><strong>Focus Areas:</strong> UI/UX Design, Human-Computer Interaction, Frontend Development</p>
+                            <p><strong>Career Paths:</strong> UX Designer, Frontend Developer, Product Designer</p>
+                        </div>
+                        <div class="specialization-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- ECE -->
+                    <div class="specialization-box" onclick="toggleSpecialization(this)">
+                        <div class="specialization-header">
+                            <div class="specialization-icon">
+                                <i class="fas fa-microchip"></i>
+                            </div>
+                            <h3 class="specialization-title">ECE</h3>
+                        </div>
+                        <p class="specialization-description">Electronics & Communication Engineering</p>
+                        <div class="specialization-details">
+                            <p><strong>Focus Areas:</strong> Signal Processing, VLSI Design, Embedded Systems</p>
+                            <p><strong>Career Paths:</strong> Electronics Engineer, Communication Specialist, Hardware Designer</p>
+                        </div>
+                        <div class="specialization-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- EEE -->
+                    <div class="specialization-box" onclick="toggleSpecialization(this)">
+                        <div class="specialization-header">
+                            <div class="specialization-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h3 class="specialization-title">EEE</h3>
+                        </div>
+                        <p class="specialization-description">Electrical & Electronics Engineering</p>
+                        <div class="specialization-details">
+                            <p><strong>Focus Areas:</strong> Power Systems, Control Systems, Electrical Machines</p>
+                            <p><strong>Career Paths:</strong> Electrical Engineer, Power Systems Engineer, Control Engineer</p>
+                        </div>
+                        <div class="specialization-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- MECH -->
+                    <div class="specialization-box" onclick="toggleSpecialization(this)">
+                        <div class="specialization-header">
+                            <div class="specialization-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <h3 class="specialization-title">MECH</h3>
+                        </div>
+                        <p class="specialization-description">Mechanical Engineering</p>
+                        <div class="specialization-details">
+                            <p><strong>Focus Areas:</strong> Thermodynamics, Machine Design, Manufacturing</p>
+                            <p><strong>Career Paths:</strong> Mechanical Engineer, Design Engineer, Production Manager</p>
+                        </div>
+                        <div class="specialization-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- CIVIL -->
+                    <div class="specialization-box" onclick="toggleSpecialization(this)">
+                        <div class="specialization-header">
+                            <div class="specialization-icon">
+                                <i class="fas fa-hard-hat"></i>
+                            </div>
+                            <h3 class="specialization-title">CIVIL</h3>
+                        </div>
+                        <p class="specialization-description">Civil Engineering</p>
+                        <div class="specialization-details">
+                            <p><strong>Focus Areas:</strong> Structural Engineering, Geotechnics, Construction Management</p>
+                            <p><strong>Career Paths:</strong> Civil Engineer, Structural Designer, Project Manager</p>
+                        </div>
+                        <div class="specialization-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="career-path">
+                    <h3><i class="fas fa-briefcase"></i> Career Opportunities</h3>
+                    <ul class="career-list">
+                        <li>Software Engineer/Developer</li>
+                        <li>Mechanical Design Engineer</li>
+                        <li>Electrical Power Engineer</li>
+                        <li>Civil Structural Engineer</li>
+                        <li>Electronics Design Engineer</li>
+                        <li>Data Scientist</li>
+                        <li>Research & Development Specialist</li>
+                        <li>Project Manager</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- M.Tech Content -->
+            <div class="tab-content" id="mtech">
+                <div class="course-header">
+                    <div class="course-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h2 class="course-title">Master of Technology (M.Tech)</h2>
+                </div>
+                
+                <p class="course-description">
+                    The Master of Technology (M.Tech) is a postgraduate degree that provides specialized knowledge in various engineering disciplines. It typically requires two years of study after completing a B.Tech or related degree.
+                </p>
+                
+                <div class="courses-grid">
+                    <div class="course-card">
+                        <h3>Structural Engineering</h3>
+                        <p>Advanced study of structural analysis, design, and materials for buildings and infrastructure.</p>
+                    </div>
+                    
+                    <div class="course-card">
+                        <h3>Power Systems Engineering</h3>
+                        <p>Specialization in electrical power generation, transmission, and distribution systems.</p>
+                    </div>
+                    
+                    <div class="course-card">
+                        <h3>Computer Science & Engineering</h3>
+                        <p>Advanced topics in algorithms, distributed systems, and artificial intelligence.</p>
+                    </div>
+                    
+                    <div class="course-card">
+                        <h3>Thermal Engineering</h3>
+                        <p>Focuses on heat transfer, energy conversion, and thermal system design.</p>
+                    </div>
+                    
+                    <div class="course-card">
+                        <h3>VLSI Design</h3>
+                        <p>Specialization in Very Large Scale Integration circuit design and fabrication.</p>
+                    </div>
+                    
+                    <div class="course-card">
+                        <h3>Robotics & Automation</h3>
+                        <p>Study of robotic systems, control systems, and industrial automation.</p>
+                    </div>
+                </div>
+                
+                <div class="career-path">
+                    <h3><i class="fas fa-briefcase"></i> Career Opportunities</h3>
+                    <ul class="career-list">
+                        <li>Senior Engineer</li>
+                        <li>Research Scientist</li>
+                        <li>Technical Consultant</li>
+                        <li>R&D Specialist</li>
+                        <li>University Professor</li>
+                        <li>Project Lead</li>
+                        <li>Design Specialist</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- MBA Content -->
+            <div class="tab-content" id="mba">
+                <div class="course-header">
+                    <div class="course-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h2 class="course-title">Master of Business Administration (MBA)</h2>
+                </div>
+                
+                <p class="course-description">
+                    The Master of Business Administration (MBA) is a postgraduate degree that develops skills in business management and leadership. MBA programs typically last two years and cover various aspects of business administration.
+                </p>
+                
+                <div class="specializations">
+                    <h3><i class="fas fa-code-branch"></i> Specializations</h3>
+                    <ul class="spec-list">
+                        <li>Finance</li>
+                        <li>Marketing</li>
+                        <li>Human Resources</li>
+                        <li>Operations Management</li>
+                        <li>International Business</li>
+                        <li>Information Technology</li>
+                        <li>Healthcare Management</li>
+                        <li>Entrepreneurship</li>
+                    </ul>
+                </div>
+                
+                <div class="career-path">
+                    <h3><i class="fas fa-briefcase"></i> Career Opportunities</h3>
+                    <ul class="career-list">
+                        <li>Business Development Manager</li>
+                        <li>Marketing Manager</li>
+                        <li>Financial Analyst</li>
+                        <li>HR Manager</li>
+                        <li>Operations Manager</li>
+                        <li>Management Consultant</li>
+                        <li>Product Manager</li>
+                        <li>Investment Banker</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- BBA Content -->
+            <div class="tab-content" id="bba">
+                <div class="course-header">
+                    <div class="course-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h2 class="course-title">Bachelor of Business Administration (BBA)</h2>
+                </div>
+                
+                <p class="course-description">
+                    The Bachelor of Business Administration (BBA) is an undergraduate degree that provides fundamental knowledge and skills in business and management. It typically takes three to four years to complete.
+                </p>
+                
+                <div class="specializations">
+                    <h3><i class="fas fa-code-branch"></i> Specializations</h3>
+                    <ul class="spec-list">
+                        <li>Finance</li>
+                        <li>Marketing</li>
+                        <li>Human Resources</li>
+                        <li>International Business</li>
+                        <li>Hospitality Management</li>
+                        <li>Entrepreneurship</li>
+                        <li>Supply Chain Management</li>
+                        <li>Information Systems</li>
+                    </ul>
+                </div>
+                
+                <div class="career-path">
+                    <h3><i class="fas fa-briefcase"></i> Career Opportunities</h3>
+                    <ul class="career-list">
+                        <li>Business Analyst</li>
+                        <li>Marketing Executive</li>
+                        <li>HR Executive</li>
+                        <li>Sales Executive</li>
+                        <li>Operations Coordinator</li>
+                        <li>Management Trainee</li>
+                        <li>Entrepreneur</li>
+                        <li>Retail Manager</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Medical Content -->
+            <div class="tab-content" id="medical">
+                <div class="course-header">
+                    <div class="course-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h2 class="course-title">Medical Courses</h2>
+                </div>
+                
+                <p class="course-description">
+                    Medical courses prepare students for careers in healthcare and medicine. These programs range from undergraduate degrees to specialized postgraduate studies and require rigorous training.
+                </p>
+                
+                <div class="courses-grid">
+                    <div class="course-card">
+                        <h3>MBBS (Bachelor of Medicine, Bachelor of Surgery)</h3>
+                        <p>Undergraduate degree program for becoming a medical doctor. Typically takes 5.5 years including internship.</p>
+                    </div>
+                    
+                    <div class="course-card">
+                        <h3>BDS (Bachelor of Dental Surgery)</h3>
+                        <p>Undergraduate degree program in dentistry. Typically takes 4 years plus 1 year internship.</p>
+                    </div>
+                    
+                    <div class="course-card">
+                        <h3>BAMS (Bachelor of Ayurvedic Medicine and Surgery)</h3>
+                        <p>Undergraduate degree program in Ayurvedic medicine. Typically takes 5.5 years.</p>
+                    </div>
+                    
+                    <div class="course-card">
+                        <h3>BHMS (Bachelor of Homeopathic Medicine and Surgery)</h3>
+                        <p>Undergraduate degree program in homeopathic medicine. Typically takes 5.5 years.</p>
+                    </div>
+                    
+                    <div class="course-card">
+                        <h3>BPT (Bachelor of Physiotherapy)</h3>
+                        <p>Undergraduate degree program in physiotherapy. Typically takes 4 years plus 6 months internship.</p>
+                    </div>
+                    
+                    <div class="course-card">
+                        <h3>B.Pharm (Bachelor of Pharmacy)</h3>
+                        <p>Undergraduate degree program in pharmacy. Typically takes 4 years.</p>
+                    </div>
+                    
+                    <div class="course-card">
+                        <h3>Nursing (B.Sc Nursing)</h3>
+                        <p>Undergraduate degree program in nursing. Typically takes 4 years.</p>
+                    </div>
+                    
+                    <div class="course-card">
+                        <h3>Medical Imaging Technology</h3>
+                        <p>Undergraduate program focusing on X-ray, MRI, CT scan, and other diagnostic imaging techniques.</p>
+                    </div>
+                </div>
+                
+                <div class="career-path">
+                    <h3><i class="fas fa-briefcase"></i> Career Opportunities</h3>
+                    <ul class="career-list">
+                        <li>Medical Doctor (MD)</li>
+                        <li>Surgeon</li>
+                        <li>Dentist</li>
+                        <li>Ayurvedic Practitioner</li>
+                        <li>Homeopathic Doctor</li>
+                        <li>Physiotherapist</li>
+                        <li>Pharmacist</li>
+                        <li>Nurse</li>
+                        <li>Medical Researcher</li>
+                        <li>Radiologist</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- About Us Section -->
+        <div class="about-section">
+            <h2>About Us</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>CareerAdvisor is dedicated to helping students make informed decisions about their educational and career paths. We provide comprehensive information about various courses, universities, and career opportunities.</p>
+                    <p>Our mission is to bridge the gap between education and career aspirations, ensuring students have access to all the information they need to shape their future.</p>
+                </div>
+                <div class="contact-info">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-details">
+                        <li><i class="fas fa-user"></i> Name: CareerAdvisor Team</li>
+                        <li><i class="fas fa-envelope"></i> Email: info@careerAdvisor.com</li>
+                        <li><i class="fas fa-comment"></i> Message: We'd love to hear from you</li>
+                        <li><i class="fas fa-handshake"></i> Prof Partner: Career Guidance Ltd.</li>
+                        <li><i class="fas fa-phone"></i> +19 9177440277</li>
+                        <li><i class="fas fa-map-marker-alt"></i> New Delhi, India</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>CareerAdvisor</h3>
+                    <p>Your guide to career success</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <a href="#">Home</a>
+                    <a href="#">Colleges</a>
+                    <a href="#">About us</a>
+                    <a href="#">Centres</a>
+                </div>
+                <div class="footer-column">
+                    <h3>Popular Courses</h3>
+                    <a href="#">B.Tech</a>
+                    <a href="#">M.Tech</a>
+                    <a href="#">MBA</a>
+                    <a href="#">Medical</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 CareerAdvisor All rights reserved.</p>
+                <p>Explore your academic and career options with our comprehensive course guide</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Tab functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.getAttribute('data-tab');
+                    
+                    // Remove active class from all buttons and contents
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding content
+                    btn.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+        
+        // Toggle specialization details
+        function toggleSpecialization(element) {
+            // Close all other open specializations
+            const allSpecializations = document.querySelectorAll('.specialization-box');
+            allSpecializations.forEach(box => {
+                if (box !== element && box.classList.contains('active')) {
+                    box.classList.remove('active');
+                    box.querySelector('.specialization-toggle i').classList.remove('fa-chevron-up');
+                    box.querySelector('.specialization-toggle i').classList.add('fa-chevron-down');
+                }
+            });
+            
+            // Toggle the clicked one
+            element.classList.toggle('active');
+            const toggleIcon = element.querySelector('.specialization-toggle i');
+            
+            if (element.classList.contains('active')) {
+                toggleIcon.classList.remove('fa-chevron-down');
+                toggleIcon.classList.add('fa-chevron-up');
+            } else {
+                toggleIcon.classList.remove('fa-chevron-up');
+                toggleIcon.classList.add('fa-chevron-down');
+            }
+        }
+    </script>
+</body>
+</html>
